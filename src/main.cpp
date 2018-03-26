@@ -6,6 +6,7 @@ class window
 private:
     
     sf::Vector2f windowSize;
+    sf::Vector2f mousePos;
     
     sf::RenderWindow window1;
     
@@ -29,6 +30,7 @@ public:
     
     window();
     
+    void update();
     void windowLoop();
     
 };
@@ -36,21 +38,23 @@ public:
 window::window()
 {
     
-    windowSize = sf::Vector2f(800, 500);
+    windowSize = sf::Vector2f(1024, 576);
+    mousePos.x = sf::Mouse::getPosition().x;
+    mousePos.y = sf::Mouse::getPosition().y;
     
     window1.create(sf::VideoMode(windowSize.x, windowSize.y), "backup your files", sf::Style::Titlebar | sf::Style::Close);
     
-    clr1.r = 0;
-    clr2.r = 0;
-    clr3.r = 0;
+    clr1.r = 171;
+    clr2.r = 230;
+    clr3.r = 255;
     
-    clr1.g = 0;
-    clr2.g = 0;
-    clr3.g = 0;
+    clr1.g = 177;
+    clr2.g = 236;
+    clr3.g = 255;
     
-    clr1.b = 0;
-    clr2.b = 0;
-    clr3.b = 0;
+    clr1.b = 188;
+    clr2.b = 247;
+    clr3.b = 255;
     
     if(!(fnt1.loadFromFile("../fnt/Georgia.ttf")))
         std::cout << std::endl << "ERROR: Could not load 'Georgia.ttf' from folder fnt." << std::endl;
@@ -72,17 +76,28 @@ window::window()
     
     rect1.setPosition
     (
-        ((window1.getSize().x / 2) - (rect1.getSize().x / 2)),
-        (window1.getSize().y - 70)
+        ((window1.getSize().x / 2) - (rect1.getSize().x / 2) - (rect1.getSize().x / 2) - 5),
+        (window1.getSize().y - 85)
     );
     rect2.setPosition
     (
-        ((window1.getSize().x / 2) - (rect2.getSize().x / 2)),
-        (window1.getSize().y - 70)
+        ((window1.getSize().x / 2) - (rect2.getSize().x / 2) + (rect1.getSize().x / 2) + 5),
+        (window1.getSize().y - 85)
     );
     
     box1 = rect1.getGlobalBounds();
     box2 = rect2.getGlobalBounds();
+    
+}
+
+void window::update()
+{
+    
+    box1 = rect1.getGlobalBounds();
+    box2 = rect2.getGlobalBounds();
+    
+    mousePos.x = sf::Mouse::getPosition(window1).x;
+    mousePos.y = sf::Mouse::getPosition(window1).y;
     
 }
 
@@ -104,8 +119,37 @@ void window::windowLoop()
         
         while(window1.pollEvent(event))
         {
+            
+            update();
+            
             if(event.type == sf::Event::Closed)
                 window1.close();
+            
+            if(box1.contains(mousePos))
+            {
+                
+                rect1.setFillColor(clr2);
+                
+            }
+            else if(! (box1.contains(mousePos)))
+            {
+                
+                rect1.setFillColor(clr1);
+                
+            }
+            
+            if(box2.contains(mousePos))
+            {
+                
+                rect2.setFillColor(clr2);
+                
+            }
+            else if(! (box2.contains(mousePos)))
+            {
+                
+                rect2.setFillColor(clr1);
+                
+            }
             
             if(event.type == sf::Event::TextEntered)
             {
@@ -149,9 +193,9 @@ window mainw;
 
 int main()
 {
-    std::string input;
+    //std::string input;
     
-    std::cout << "Hello world";
+    //std::cout << "Hello world";
     
     mainw.windowLoop();
     
