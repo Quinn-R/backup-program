@@ -10,18 +10,22 @@ private:
     
     sf::RenderWindow window1;
     
-    sf::Color clr1;
-    sf::Color clr2;
-    sf::Color clr3;
+    sf::Color clrButton1;
+    sf::Color clrButton2;
+    sf::Color clrTextBack1;
+    sf::Color clrTextBack2;
     
     sf::Font fnt1;
     
-    sf::Text txt1;
-    sf::Text txt2;
-    sf::Text txt3;
+    sf::Text txtWelcome1;
+    sf::Text txtButton1;
+    sf::Text txtButton2;
+    sf::Text txtInput1;
     
-    sf::RectangleShape rect1;
-    sf::RectangleShape rect2;
+    sf::RectangleShape rectButton1;
+    sf::RectangleShape rectButton2;
+    sf::RectangleShape rectText;
+    sf::RectangleShape rectInput;
     
     sf::FloatRect box1;
     sf::FloatRect box2;
@@ -44,57 +48,77 @@ window::window()
     
     window1.create(sf::VideoMode(windowSize.x, windowSize.y), "backup your files", sf::Style::Titlebar | sf::Style::Close);
     
-    clr1.r = 171;
-    clr2.r = 230;
-    clr3.r = 255;
+    clrButton1.r = 171;
+    clrButton2.r = 230;
+    clrTextBack1.r = 225;
+    clrTextBack2.r = 190;
     
-    clr1.g = 177;
-    clr2.g = 236;
-    clr3.g = 255;
+    clrButton1.g = 177;
+    clrButton2.g = 236;
+    clrTextBack1.g = 232;
+    clrTextBack2.g = 204;
     
-    clr1.b = 188;
-    clr2.b = 247;
-    clr3.b = 255;
+    clrButton1.b = 188;
+    clrButton2.b = 247;
+    clrTextBack1.b = 244;
+    clrTextBack2.b = 226;
     
     if(!(fnt1.loadFromFile("../fnt/Georgia.ttf")))
         std::cout << std::endl << "ERROR: Could not load 'Georgia.ttf' from folder fnt." << std::endl;
     
-    txt1.setFont(fnt1);
-    txt2.setFont(fnt1);
-    txt3.setFont(fnt1);
+    txtWelcome1.setFont(fnt1);
+    txtButton1.setFont(fnt1);
+    txtButton2.setFont(fnt1);
     
-    txt1.setCharacterSize(15);
-    txt2.setCharacterSize(15);
-    txt3.setCharacterSize(15);
+    txtWelcome1.setCharacterSize(15);
+    txtButton1.setCharacterSize(15);
+    txtButton2.setCharacterSize(15);
+    txtInput1.setCharacterSize(45);
     
-    txt1.setString("Welcome to the backup program. To choose files to backup, write into the text file named 'backup locations' the following things: file/folder locaiton space new folder name. If you write the same folder name for a different backup, they will be put into the same folder. When making more than one file/folder backup, you must write them on seperate lines. The backups will be made to the location of the program.");
-    txt2.setString("generate 'backup locations' file");
-    txt3.setString("start backup");
+    txtWelcome1.setString("Welcome to the backup program. To choose files to backup, write into the text file named 'backup locations' the following things: file/folder locaiton space new folder name. If you write the same folder name for a different backup, they will be put into the same folder. When making more than one file/folder backup, you must write them on seperate lines. The backups will be made to the location of the program.");
+    txtButton1.setString("generate 'backup locations' file");
+    txtButton2.setString("start backup");
     
-    rect1.setSize(sf::Vector2f(150, 75));
-    rect2.setSize(sf::Vector2f(150, 75));
+    rectButton1.setSize(sf::Vector2f(150, 75));
+    rectButton2.setSize(sf::Vector2f(150, 75));
+    rectText.setSize(sf::Vector2f(windowSize.x - 40, windowSize.y - 240));
+    rectInput.setSize(sf::Vector2f(windowSize.x - 40, 50));
     
-    rect1.setPosition
+    rectText.setFillColor(clrTextBack1);
+    rectInput.setFillColor(clrTextBack1);
+    
+    rectButton1.setPosition
     (
-        ((window1.getSize().x / 2) - (rect1.getSize().x / 2) - (rect1.getSize().x / 2) - 5),
+        ((window1.getSize().x / 2) - (rectButton1.getSize().x / 2) - (rectButton1.getSize().x / 2) - 5),
         (window1.getSize().y - 85)
     );
-    rect2.setPosition
+    rectButton2.setPosition
     (
-        ((window1.getSize().x / 2) - (rect2.getSize().x / 2) + (rect1.getSize().x / 2) + 5),
+        ((window1.getSize().x / 2) - (rectButton2.getSize().x / 2) + (rectButton1.getSize().x / 2) + 5),
         (window1.getSize().y - 85)
     );
+    rectText.setPosition
+    (
+        ((window1.getSize().x / 2) - (rectText.getSize().x / 2)),
+        (/*window1.getSize().y -*/ 20)
+    );
     
-    box1 = rect1.getGlobalBounds();
-    box2 = rect2.getGlobalBounds();
+    rectInput.setPosition
+    (
+        ((window1.getSize().x / 2) - (rectInput.getSize().x / 2)),
+        (rectText.getSize().y + 40)
+    );
+    
+    box1 = rectButton1.getGlobalBounds();
+    box2 = rectButton2.getGlobalBounds();
     
 }
 
 void window::update()
 {
     
-    box1 = rect1.getGlobalBounds();
-    box2 = rect2.getGlobalBounds();
+    box1 = rectButton1.getGlobalBounds();
+    box2 = rectButton2.getGlobalBounds();
     
     mousePos.x = sf::Mouse::getPosition(window1).x;
     mousePos.y = sf::Mouse::getPosition(window1).y;
@@ -128,26 +152,26 @@ void window::windowLoop()
             if(box1.contains(mousePos))
             {
                 
-                rect1.setFillColor(clr2);
+                rectButton1.setFillColor(clrButton2);
                 
             }
             else if(! (box1.contains(mousePos)))
             {
                 
-                rect1.setFillColor(clr1);
+                rectButton1.setFillColor(clrButton1);
                 
             }
             
             if(box2.contains(mousePos))
             {
                 
-                rect2.setFillColor(clr2);
+                rectButton2.setFillColor(clrButton2);
                 
             }
             else if(! (box2.contains(mousePos)))
             {
                 
-                rect2.setFillColor(clr1);
+                rectButton2.setFillColor(clrButton1);
                 
             }
             
@@ -162,9 +186,11 @@ void window::windowLoop()
             
         }
         
-        window1.clear(sf::Color::Black);
-        window1.draw(rect1);
-        window1.draw(rect2);
+        window1.clear(sf::Color::White);
+        window1.draw(rectButton1);
+        window1.draw(rectButton2);
+        window1.draw(rectText);
+        window1.draw(rectInput);
         window1.display();
         
     }
