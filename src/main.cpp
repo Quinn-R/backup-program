@@ -1,4 +1,5 @@
 #include "../inc/common.h"
+#include "../inc/textBox.h"
 
 class window 
 {
@@ -25,7 +26,6 @@ private:
     sf::RectangleShape rectButton1;
     sf::RectangleShape rectButton2;
     sf::RectangleShape rectText;
-    sf::RectangleShape rectInput;
     
     sf::FloatRect box1;
     sf::FloatRect box2;
@@ -82,10 +82,8 @@ window::window()
     rectButton1.setSize(sf::Vector2f(150, 75));
     rectButton2.setSize(sf::Vector2f(150, 75));
     rectText.setSize(sf::Vector2f(windowSize.x - 40, windowSize.y - 240));
-    rectInput.setSize(sf::Vector2f(windowSize.x - 40, 50));
     
     rectText.setFillColor(clrTextBack1);
-    rectInput.setFillColor(clrTextBack1);
     
     rectButton1.setPosition
     (
@@ -101,12 +99,6 @@ window::window()
     (
         ((window1.getSize().x / 2) - (rectText.getSize().x / 2)),
         (/*window1.getSize().y -*/ 20)
-    );
-    
-    rectInput.setPosition
-    (
-        ((window1.getSize().x / 2) - (rectInput.getSize().x / 2)),
-        (rectText.getSize().y + 40)
     );
     
     box1 = rectButton1.getGlobalBounds();
@@ -190,7 +182,7 @@ void window::windowLoop()
         window1.draw(rectButton1);
         window1.draw(rectButton2);
         window1.draw(rectText);
-        window1.draw(rectInput);
+        //window1.draw(rectInput);
         window1.display();
         
     }
@@ -211,11 +203,28 @@ private:
     
 public:
     
+    readFile(std::string fileNameInput);
     
+    void fileIn();
     
 };
 
+readFile::readFile(std::string fileNameInput)
+{
+    
+    fileName = fileNameInput;
+    
+}
+
+void readFile::fileIn()
+{
+    
+    
+    
+}
+
 window mainw;
+//readFile rf("hello");
 
 int main()
 {
