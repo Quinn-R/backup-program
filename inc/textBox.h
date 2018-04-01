@@ -9,13 +9,18 @@ class textBox
 private:
     
     sf::Color clrTextBack1;
+    sf::Color clrTextBack2;
+    
+    sf::Vector2f textBoxPos;
+    sf::Vector2f mousePos;
+    sf::Vector2f windowSize;
     
     sf::RectangleShape rectInput;
     
     sf::FloatRect boxInput;
     
-    sf::Vector2f textBoxPos;
-    sf::Vector2f mousePos;
+    std::string fntLoc;
+    std::string inputString;
     
     sf::Font fnt1;
     
@@ -23,15 +28,18 @@ private:
     
 public:
     
-    textBox(sf::Vector2f windowSize, sf::Color clrTextBack1);
-    
-    void update();
+    textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f msPos, sf::Vector2f winSize, std::string fntLc);
     
     sf::Vector2f getTextBoxPos();
     sf::FloatRect getTextBoxBounds();
     
+    std::string userInput(sf::Event textEvent);
+    
+    void update();
+    
     bool isTextBoxHover();
     bool isTextBoxClicked();
+    bool changeTextBox();
     
 };
 

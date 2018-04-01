@@ -167,9 +167,9 @@ void window::windowLoop()
                 
             }
             
-            if(event.type == sf::Event::TextEntered)
+            if(textEvent.type == sf::Event::TextEntered)
             {
-                if (event.text.unicode == 8)
+                if (textEvent.text.unicode == 8)
                 {
                     
                 }

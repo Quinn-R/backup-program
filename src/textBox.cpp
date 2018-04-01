@@ -1,7 +1,14 @@
 #include "../inc/textBox.h"
 
-textBox::textBox(sf::Vector2f windowSize, sf::Color clrTextBack1)
+textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f msPos, sf::Vector2f winSize, std::string fntLc)
 {
+    
+    clrTextBack1 = clr1;
+    clrTextBack2 = clr2;
+    
+    textBoxPos = txtBxPos;
+    mousePos = msPos;
+    windowSize = winSize;
     
     rectInput.setSize(sf::Vector2f(windowSize.x - 40, 50));
     rectInput.setFillColor(clrTextBack1);
@@ -13,15 +20,14 @@ textBox::textBox(sf::Vector2f windowSize, sf::Color clrTextBack1)
     
     boxInput = rectInput.getGlobalBounds();
     
-}
-
-void textBox::update()
-{
+    fntLoc = fntLc;
     
-    boxInput = rectInput.getGlobalBounds();
-    
-    mousePos.x = sf::Mouse::getPosition().x;
-    mousePos.y = sf::Mouse::getPosition().y;
+    if(! fnt1.loadFromFile(fntLoc))
+    {
+        
+        std::cout << std::endl << "ERROR: Issue loading font " << fntLoc << "." << std::endl;
+        
+    }
     
 }
 
@@ -65,4 +71,50 @@ bool textBox::isTextBoxClicked()
     
     return 0;
     
+}
+
+std::string textBox::userInput(sf::Event textEvent)
+{
+    if(textEvent.type == sf::Event::TextEntered)
+    {
+        if (textEvent.text.unicode == 8 && inputString.size() > 0 && isTextBoxClicked() == 1)
+        {
+            
+            inputString.erase(inputString.size() - 1, 1);
+            
+        }
+        
+    }
+    
+}
+
+void textBox::update()
+{
+    
+    boxInput = rectInput.getGlobalBounds();
+    
+    mousePos.x = sf::Mouse::getPosition().x;
+    mousePos.y = sf::Mouse::getPosition().y;
+    
+}
+
+bool textBox::changeTextBox()
+{
+    
+    update();
+    
+    if(isTextBoxClicked() == 1)
+    {
+        
+        rectInput.setFillColor(clrTextBack2);
+        return 1;
+        
+    }
+    else
+    {
+        
+        rectInput.setFillColor(clrTextBack1);
+        return 0;
+        
+    }
 }
