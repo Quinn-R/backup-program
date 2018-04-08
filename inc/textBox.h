@@ -14,11 +14,11 @@ private:
     sf::Vector2f textBoxPos;
     sf::Vector2f textBoxSize;
     sf::Vector2f mousePos;
-    sf::Vector2f windowSize;
 
     sf::RectangleShape rectInput;
 
     sf::FloatRect boxInput;
+    sf::FloatRect windowSize;
 
     std::string fntLoc;
     std::string inputString;
@@ -29,7 +29,7 @@ private:
 
 public:
 
-    textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f txtBxSize, sf::Vector2f winSize, std::string fntLc);
+    textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f txtBxSize, sf::FloatRect winSize, std::string fntLc);
 
     sf::Vector2f getTextBoxPos();
 
@@ -42,6 +42,8 @@ public:
     bool isTextBoxHover();
     bool isTextBoxClicked();
     bool changeTextBox();
+    
+    sf::RectangleShape getRectInput();
 
 };
 

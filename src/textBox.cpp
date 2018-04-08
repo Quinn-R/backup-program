@@ -1,6 +1,6 @@
 #include "../inc/textBox.h"
 
-textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f txtBxSize, sf::Vector2f winSize, std::string fntLc)
+textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f txtBxSize, sf::FloatRect winSize, std::string fntLc)
 {
 
     clrTextBack1 = clr1;
@@ -11,13 +11,13 @@ textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vect
     //mousePos = msPos;
     windowSize = winSize;
 
-    /*rectInput.setSize(sf::Vector2f(windowSize.x - 40, 50));
+    rectInput.setSize(sf::Vector2f(windowSize.width - 40, 50));
     rectInput.setFillColor(clrTextBack1);
     rectInput.setPosition
     (
-        ((window1.getSize().x / 2) - (rectInput.getSize().x / 2)),
-        (rectText.getSize().y + 40)
-    );*/
+        ((windowSize.width / 2) - (rectInput.getSize().x / 2)),
+        (rectInput.getSize().y)
+    );
 
     boxInput = rectInput.getGlobalBounds();
 
@@ -118,4 +118,11 @@ bool textBox::changeTextBox()
         return 0;
 
     }
+}
+
+sf::RectangleShape textBox::getRectInput()
+{
+    
+    return rectInput;
+    
 }

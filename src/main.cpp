@@ -7,7 +7,6 @@ class window
 
 private:
 
-    sf::Vector2f windowSize;
     sf::Vector2f mousePos;
     sf::Vector2f rectInputPos;
     sf::Vector2f rectInputSize;
@@ -34,9 +33,7 @@ private:
 
     sf::FloatRect box1;
     sf::FloatRect box2;
-
-    textBox txtBx(clrButton1, clrButton2, rectInputPos, rectInputSize, windowSize, fontLocation);
-
+    sf::FloatRect windowSize;
 
 public:
 
@@ -52,20 +49,19 @@ public:
 window::window()
 {
 
-    windowSize = sf::Vector2f(1024, 576);
+    windowSize = sf::FloatRect(0, 0, 1024, 576);
     mousePos.x = sf::Mouse::getPosition().x;
     mousePos.y = sf::Mouse::getPosition().y;
-    rectInputSize =
+    /*rectInputSize =
     (
-        sf::Vector2f(windowSize.x - 40, 45)
+        sf::Vector2f(windowSize.width - 40, 45)
     );
     rectInputPos =
     (
         sf::Vector2f(((window1.getSize().x / 2) - (rectText.getSize().x / 2)),
         (rectText.getSize().y + rectText.getPosition().y + 20))
-    );
-
-    window1.create(sf::VideoMode(windowSize.x, windowSize.y), "backup your files", sf::Style::Titlebar | sf::Style::Close);
+    );*/
+    window1.create(sf::VideoMode(windowSize.width, windowSize.height), "backup your files", sf::Style::Titlebar | sf::Style::Close);
 
     clrButton1.r = 171;
     clrButton2.r = 230;
@@ -102,7 +98,7 @@ window::window()
 
     rectButton1.setSize(sf::Vector2f(150, 75));
     rectButton2.setSize(sf::Vector2f(150, 75));
-    rectText.setSize(sf::Vector2f(windowSize.x - 40, windowSize.y - 240));
+    rectText.setSize(sf::Vector2f(windowSize.width - 40, windowSize.height - 240));
 
     rectText.setFillColor(clrTextBack1);
 
@@ -125,7 +121,7 @@ window::window()
     box1 = rectButton1.getGlobalBounds();
     box2 = rectButton2.getGlobalBounds();
 
-    txtBx(clrButton1, clrButton2, rectInputPos, rectInputSize, windowSize, fontLocation);
+    
 }
 
 void window::update()
@@ -149,6 +145,8 @@ void window::windowLoop()
         sf::Vector2i(((sf::VideoMode::getDesktopMode().width / 2) - (window1.getSize().x / 2)),
         ((sf::VideoMode::getDesktopMode().height / 2) - (window1.getSize().y / 2)))
     );
+    
+    textBox txtBx(clrButton1, clrButton2, rectInputPos, rectInputSize, windowSize, fontLocation);
 
     while(window1.isOpen())
     {
@@ -204,7 +202,7 @@ void window::windowLoop()
         window1.draw(rectButton1);
         window1.draw(rectButton2);
         window1.draw(rectText);
-        //window1.draw(rectInput);
+        window1.draw(txtBx.getRectInput());
         window1.display();
 
     }
