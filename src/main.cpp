@@ -34,6 +34,8 @@ private:
     sf::FloatRect box1;
     sf::FloatRect box2;
     sf::FloatRect windowSize;
+    
+    bool inputOpen = 0;
 
 public:
 
@@ -52,15 +54,16 @@ window::window()
     windowSize = sf::FloatRect(0, 0, 1024, 576);
     mousePos.x = sf::Mouse::getPosition().x;
     mousePos.y = sf::Mouse::getPosition().y;
-    /*rectInputSize =
+    rectInputSize =
     (
         sf::Vector2f(windowSize.width - 40, 45)
     );
     rectInputPos =
     (
         sf::Vector2f(((window1.getSize().x / 2) - (rectText.getSize().x / 2)),
-        (rectText.getSize().y + rectText.getPosition().y + 20))
-    );*/
+        (rectText.getSize().y + rectText.getPosition().y + 40))
+    );
+
     window1.create(sf::VideoMode(windowSize.width, windowSize.height), "backup your files", sf::Style::Titlebar | sf::Style::Close);
 
     clrButton1.r = 171;
@@ -121,7 +124,7 @@ window::window()
     box1 = rectButton1.getGlobalBounds();
     box2 = rectButton2.getGlobalBounds();
 
-    
+
 }
 
 void window::update()
@@ -145,7 +148,7 @@ void window::windowLoop()
         sf::Vector2i(((sf::VideoMode::getDesktopMode().width / 2) - (window1.getSize().x / 2)),
         ((sf::VideoMode::getDesktopMode().height / 2) - (window1.getSize().y / 2)))
     );
-    
+
     textBox txtBx(clrButton1, clrButton2, rectInputPos, rectInputSize, windowSize, fontLocation);
 
     while(window1.isOpen())
@@ -155,9 +158,7 @@ void window::windowLoop()
 
         while(window1.pollEvent(event))
         {
-
-            update();
-            txtBx.update();
+            
             if(event.type == sf::Event::Closed)
                 window1.close();
 
@@ -186,7 +187,39 @@ void window::windowLoop()
                 rectButton2.setFillColor(clrButton1);
 
             }
+            
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                if(txtBx.isTextBoxClicked(mousePos) == 1)
+                {
 
+                    txtBx.changeTextBox(1);
+                    inputOpen = 1;
+
+                }
+                else if(txtBx.isTextBoxClicked(mousePos) == 0)
+                {
+
+                    txtBx.changeTextBox(0);
+                    inputOpen = 0;
+
+                }
+            }
+            
+            if(inputOpen == 1 /*&& sf::Keyboard::isKeyPressed()*/)
+            {
+                
+                txtBx.userInput(event);
+                
+            }
+            
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            {
+                
+                std::cout << "W";
+                
+            }
+            
             /*if(textEvent.type == sf::Event::TextEntered)
             {
                 if (textEvent.text.unicode == 8)
@@ -197,7 +230,10 @@ void window::windowLoop()
             }*/
 
         }
-
+        
+        update();
+        //txtBx.update();
+        
         window1.clear(sf::Color::White);
         window1.draw(rectButton1);
         window1.draw(rectButton2);

@@ -13,7 +13,7 @@ private:
 
     sf::Vector2f textBoxPos;
     sf::Vector2f textBoxSize;
-    sf::Vector2f mousePos;
+    //sf::Vector2f mousePos;
 
     sf::RectangleShape rectInput;
 
@@ -35,13 +35,11 @@ public:
 
     sf::FloatRect getTextBoxBounds();
 
-    std::string userInput(sf::Event textEvent);
-
+    void userInput(sf::Event textEvent);
     void update();
-
-    bool isTextBoxHover();
-    bool isTextBoxClicked();
-    bool changeTextBox();
+    bool isTextBoxHover(sf::Vector2f mousePos);
+    bool isTextBoxClicked(sf::Vector2f mousePos);
+    bool changeTextBox(bool inUse);
     
     sf::RectangleShape getRectInput();
 

@@ -1,5 +1,27 @@
 #include "../inc/textBox.h"
 
+/*##############################
+
+This is required to run the opening and closing of the textbox code
+
+if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+{
+    if(txtBx.isTextBoxClicked(mousePos) == 1)
+    {
+
+        txtBx.changeTextBox(1);
+
+    }
+    else if(txtBx.isTextBoxClicked(mousePos) == 0)
+    {
+
+        txtBx.changeTextBox(0);
+
+    }
+}
+
+##############################*/
+
 textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vector2f txtBxSize, sf::FloatRect winSize, std::string fntLc)
 {
 
@@ -8,16 +30,12 @@ textBox::textBox(sf::Color clr1, sf::Color clr2, sf::Vector2f txtBxPos, sf::Vect
 
     textBoxPos = txtBxPos;
     textBoxSize = txtBxSize;
-    //mousePos = msPos;
+    //mousePos = msePos;
     windowSize = winSize;
 
-    rectInput.setSize(sf::Vector2f(windowSize.width - 40, 50));
+    rectInput.setSize(textBoxSize);
     rectInput.setFillColor(clrTextBack1);
-    rectInput.setPosition
-    (
-        ((windowSize.width / 2) - (rectInput.getSize().x / 2)),
-        (rectInput.getSize().y)
-    );
+    rectInput.setPosition(windowSize.width / 2 - (textBoxPos.x + textBoxSize.x) / 2, 400 );
 
     boxInput = rectInput.getGlobalBounds();
 
@@ -46,7 +64,7 @@ sf::FloatRect textBox::getTextBoxBounds()
 
 }
 
-bool textBox::isTextBoxHover()
+bool textBox::isTextBoxHover(sf::Vector2f mousePos)
 {
 
     if(boxInput.contains(mousePos))
@@ -60,10 +78,10 @@ bool textBox::isTextBoxHover()
 
 }
 
-bool textBox::isTextBoxClicked()
+bool textBox::isTextBoxClicked(sf::Vector2f mousePos)
 {
 
-    if(isTextBoxHover() == 1 && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if(isTextBoxHover(mousePos) == 1 && sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
 
         return 1;
@@ -71,58 +89,72 @@ bool textBox::isTextBoxClicked()
     }
 
     return 0;
-
+    
 }
 
-std::string textBox::userInput(sf::Event textEvent)
+void textBox::userInput(sf::Event textEvent)
 {
+    
     if(textEvent.type == sf::Event::TextEntered)
     {
-        if (textEvent.text.unicode == 8 && inputString.size() > 0 && isTextBoxClicked() == 1)
+        if (textEvent.text.unicode == 8 && inputString.size() > 0)
         {
 
             inputString.erase(inputString.size() - 1, 1);
 
         }
-
+        
+        else if ((textEvent.text.unicode >= '!' && textEvent.text.unicode <= '}') || textEvent.text.unicode <= ' ' && inputString.size() != 48)
+        {
+            
+            inputString += (textEvent.text.unicode);
+            
+        }
+        
+        std::cout << inputString << std::endl;
+        
     }
 
 }
 
-void textBox::update()
+/*void textBox::update()
 {
 
     boxInput = rectInput.getGlobalBounds();
 
-    mousePos.x = sf::Mouse::getPosition().x;
-    mousePos.y = sf::Mouse::getPosition().y;
+    //mousePos.x = sf::Mouse::getPosition(window1).x;
+    //mousePos.y = sf::Mouse::getPosition(window1).y;
+    
+    std::cout << mousePos.x << ", " << mousePos.y << std::endl;
 
-}
+}*/
 
-bool textBox::changeTextBox()
+
+bool textBox::changeTextBox(bool inUse)
 {
 
-    update();
+    //update();
 
-    if(isTextBoxClicked() == 1)
+    if(inUse == 1)
     {
 
         rectInput.setFillColor(clrTextBack2);
-        return 1;
+        //return 1;
 
     }
     else
     {
 
         rectInput.setFillColor(clrTextBack1);
-        return 0;
+        //return 0;
 
     }
 }
 
+
 sf::RectangleShape textBox::getRectInput()
 {
-    
+
     return rectInput;
-    
+
 }
